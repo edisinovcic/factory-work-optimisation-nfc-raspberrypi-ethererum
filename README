@@ -40,7 +40,7 @@ Methods:
 - update
 - change_status
 
-JOB_TICKET (Radni Nalog):
+WORKING_ORDER (Radni Nalog):
 - work_station_id:uint
 - list_of_input_tags:[]uint
 - output_tag:uint (optional)
