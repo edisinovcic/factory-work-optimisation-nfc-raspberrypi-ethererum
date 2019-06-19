@@ -4,48 +4,48 @@ pragma experimental ABIEncoderV2;
 contract Employee {
 
     address manager;
-    EmployeeStruct public employeeData;
+    employee public employeeData;
 
     modifier onlyOwner() {
         require(manager == msg.sender, "Ownable: caller is not the owner");
         _;
     }
 
-    modifier mustBeActive(Employee _address) {
-        require(_address.employeeData == 0, "Cannot update non existing Employee");
-        _;
-    }
-
-    struct EmployeeStruct {
+    struct employee {
+        uint id;
         bool active;
         string skills;
     }
 
     event CreatedEmployee(
-        EmployeeStruct _value
+        employee _value
     );
 
     event UpdatedEmployee(
-        EmployeeStruct _valueemployeeData
+        employee _value
     );
 
-    constructor(bool _active, string memory _skills) public {
+    constructor(uint _id, bool _active, string memory _skills) public {
         manager = msg.sender;
-        EmployeeStruct memory newEmployee = EmployeeStruct({
+        employeeData = employee({
+            id : _id,
             active : _active,
             skills : _skills
             });
 
-        emit CreatedEmployee(newEmployee);
+        emit CreatedEmployee(employeeData);
     }
 
-    function update(address _address, bool _active, string memory _skills) public onlyOwner mustBeActive(_address) {
-        _address.active = _active;
-        _address.skills = _skills;
-        emit UpdatedEmployee(_address);
+    function update(uint _id, address _address, bool _active, string memory _skills) public onlyOwner {
+        employeeData = employee({
+            id : _id,
+            active : _active,
+            skills : _skills
+            });
+        emit UpdatedEmployee(employeeData);
     }
 
-    function getEmployee() public view returns(EmployeeStruct memory) {
+    function getEmployeeData() public view returns (employee memory) {
         return employeeData;
     }
 }
