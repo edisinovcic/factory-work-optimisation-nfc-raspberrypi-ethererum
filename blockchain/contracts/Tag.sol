@@ -1,8 +1,16 @@
 pragma solidity ^0.5.9;
+pragma experimental ABIEncoderV2;
+
 
 contract Tag {
 
     address manager;
+    tag public tagData;
+
+    modifier onlyOwner() {
+        require(manager == msg.sender, "Ownable: caller is not the owner");
+        _;
+    }
 
     struct tag {
         uint id;
@@ -18,25 +26,29 @@ contract Tag {
         tag _value
     );
 
-    constructor(uint memory _id, string memory _description_, bool memory _active) {
-        manager = _sender;
-        tag({
-            id : _id,
-            description : _description_,
-            active : _active
-            });
-
-        emit CreatedTag(tag);
-    }
-
-    function update(uint memory _id, string memory _description, bool memory _active) onlyOwner {
-        tag({
+    constructor(uint _id, string memory _description, bool _active) public {
+        manager = msg.sender;
+        tagData = tag({
             id : _id,
             description : _description,
             active : _active
             });
 
-        emit UpdatedTag(tag);
+        emit CreatedTag(tagData);
+    }
+
+    function update(uint _id, string memory _description, bool _active) public onlyOwner {
+        tagData = tag({
+            id : _id,
+            description : _description,
+            active : _active
+            });
+
+        emit UpdatedTag(tagData);
+    }
+
+    function getTagData() public view returns(tag memory) {
+        return tagData;
     }
 
 }

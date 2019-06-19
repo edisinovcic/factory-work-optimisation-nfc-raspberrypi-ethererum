@@ -1,42 +1,51 @@
-pragma solidity ^0.5.9;
+pragma solidity ^0.5.8;
+pragma experimental ABIEncoderV2;
 
 contract Employee {
 
     address manager;
+    EmployeeStruct public employeeData;
 
-    struct employee {
-        uint id;
+    modifier onlyOwner() {
+        require(manager == msg.sender, "Ownable: caller is not the owner");
+        _;
+    }
+
+    modifier mustBeActive(Employee _address) {
+        require(_address.employeeData == 0, "Cannot update non existing Employee");
+        _;
+    }
+
+    struct EmployeeStruct {
         bool active;
         string skills;
     }
 
     event CreatedEmployee(
-        employee _value
+        EmployeeStruct _value
     );
 
     event UpdatedEmployee(
-        employee _value
+        EmployeeStruct _valueemployeeData
     );
 
-    constructor(uint memory _id, bool memory _active, string memory _skills) {
-        manager = _sender;
-        employee({
-            id : _id,
+    constructor(bool _active, string memory _skills) public {
+        manager = msg.sender;
+        EmployeeStruct memory newEmployee = EmployeeStruct({
             active : _active,
             skills : _skills
             });
 
-        emit CreatedEmployee(employee);
+        emit CreatedEmployee(newEmployee);
     }
 
-    function update(uint memory _id, bool memory _active, string memory _skills) onlyOwner {
-        employee({
-            id : _id,
-            active : _active,
-            skills : _skills
-            });
+    function update(address _address, bool _active, string memory _skills) public onlyOwner mustBeActive(_address) {
+        _address.active = _active;
+        _address.skills = _skills;
+        emit UpdatedEmployee(_address);
+    }
 
-
-        emit UpdatedEmployee(employee);
+    function getEmployee() public view returns(EmployeeStruct memory) {
+        return employeeData;
     }
 }

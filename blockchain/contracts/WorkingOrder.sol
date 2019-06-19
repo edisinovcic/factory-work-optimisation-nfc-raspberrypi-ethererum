@@ -33,7 +33,7 @@ contract WorkingOrder {
         emit CreatedTag(workingOrder);
     }
 
-    function update(uint memory _id, string memory _description, bool memory _active) onlyOwner {
+    function update(uint memory _id, tag[] memory _inputTags, tag memory _outputTag, string memory _status, string memory _status_description) onlyOwner {
         workingOrder({
             id : _id,
             description : _description,
