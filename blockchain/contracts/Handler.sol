@@ -4,8 +4,9 @@ pragma experimental ABIEncoderV2;
 import './Tag.sol';
 import "./Employee.sol";
 import "./WorkStation.sol";
+import './router/EmployeeRouter.sol'
 
-contract Handler {
+contract Handler is EmployeeRouter {
 
     address manager;
 
