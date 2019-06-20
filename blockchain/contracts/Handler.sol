@@ -4,7 +4,7 @@ pragma experimental ABIEncoderV2;
 import './Tag.sol';
 import "./Employee.sol";
 import "./WorkStation.sol";
-import './router/EmployeeRouter.sol';
+import './EmployeeRouter.sol';
 
 contract Handler is EmployeeRouter {
 
@@ -20,62 +20,11 @@ contract Handler is EmployeeRouter {
     }
 
     //=================================================================================
-    // Employee handler
-    //=================================================================================
-
-    mapping(address => Employee) private employees;
-    mapping(uint => adress) private employeeIDs;
-    address[] private employeeList;
-
-    event CreatedTag(Employee employee);
-    event UpdatedTag(Employee employee);
-    event DeletedTag(Employee employee);
-
-    modifier employeeExists(address _address){
-        require(employees[_address].getEmployeeData().id != 0, 'Employee has to exist!');
-        _;
-    }
-
-    function addNewEmployee(uint _id, bool _active, string memory _skills) public onlyOwner {
-        Employee employee = new Employee(_id, _active, _skills);
-        address employeeAddress = address(employee);
-        employeeList.push(employeeAddress) - 1;
-        employees[employeeAddress] = employee;
-        employeeIDs[_id] = employeeAddress;
-        emit CreatedEmployee(employee);
-    }
-
-    function updateEmployee(address _address, uint _id, bool _active, string memory _skills) public employeeExists(_address) onlyOwner {
-        Employee employee = employees[_address];
-        employee.update(_id, _active, _skills);
-        employees[_address] = employee;
-        employeeIDs[address(employee)] = 0; //Remove old reference
-        employeeIDs[_id] = employeeAddress;
-    }
-
-    function getAllEmployees() public view returns (address[] memory)  {
-        return employeeList;
-    }
-
-    function getEmployeeByAddress(address _address) public view returns (Employee.employee memory){
-        return employees[_address].getEmployeeData();
-    }
-
-    function getEmployeeById(uint _id) public view returns (Employee.employee memory) {
-        return employeeIDs[_id].getEmployeeData();
-    }
-
-    function countEmployees() public view returns (uint) {
-        return employeeList.length;
-    }
-
-
-    //=================================================================================
     //Tag handler
     //=================================================================================
 
     mapping(address => Tag) private tags;
-    mapping(id => address) private tagIDs;
+    mapping(uint => address) private tagIDs;
     address[] private tagList;
 
     event CreatedTag(Tag tag);
@@ -114,7 +63,7 @@ contract Handler is EmployeeRouter {
     }
 
     function getTagById(uint _id) public view returns (Tag.tag memory){
-        return tagIDs[_id].getTagData();
+        return tags[tagIDs[_id]].getTagData();
     }
 
     function countTags() public view returns (uint) {
@@ -127,7 +76,7 @@ contract Handler is EmployeeRouter {
     //=================================================================================
 
     mapping(address => WorkStation) private workStations;
-    mapping(id => address) private workStationsIDS;
+    mapping(uint => address) private workStationIDs;
     address[] private workStationList;
 
     event CreatedWorkStation(WorkStation workStation);
@@ -144,7 +93,7 @@ contract Handler is EmployeeRouter {
         address workStationAddress = address(workStation);
         workStationList.push(workStationAddress) - 1;
         workStations[workStationAddress] = workStation;
-        workStationsIDS[_id] = workStationAddress;
+        workStationIDs[_id] = workStationAddress;
         emit CreatedWorkStation(workStation);
     }
 
@@ -166,7 +115,7 @@ contract Handler is EmployeeRouter {
     }
 
     function getWorkStationById(uint _id) public view returns (WorkStation.workStation memory) {
-        return workStationIDs[_id].getWorkStationData();
+        return workStations[workStationIDs[_id]].getWorkStationData();
     }
 
     function countWorkStations() public view returns (uint) {

@@ -5,17 +5,29 @@ import "./Employee.sol";
 
 contract EmployeeRouter {
 
+    address manager;
+
+    constructor() public {
+        manager = msg.sender;
+    }
+
+    modifier onlyOwner() {
+        require(manager == msg.sender, "Ownable: caller is not the owner");
+        _;
+    }
+
     //=================================================================================
     // Employee handler
     //=================================================================================
 
     mapping(address => Employee) private employees;
-    mapping(uint => adress) private employeeIDs;
+    mapping(uint => address) private employeeIDs;
     address[] private employeeList;
 
-    event CreatedTag(Employee employee);
-    event UpdatedTag(Employee employee);
-    event DeletedTag(Employee employee);
+    event CreatedEmployee(Employee employee);
+    event UpdatedEmployee(Employee employee);
+    event DeletedEmployee(Employee employee);
+
 
     modifier employeeExists(address _address){
         require(employees[_address].getEmployeeData().id != 0, 'Employee has to exist!');
@@ -33,9 +45,11 @@ contract EmployeeRouter {
 
     function updateEmployee(address _address, uint _id, bool _active, string memory _skills) public employeeExists(_address) onlyOwner {
         Employee employee = employees[_address];
+        uint oldID = employee.getEmployeeData().id;
+        address employeeAddress = address(employee);
         employee.update(_id, _active, _skills);
         employees[_address] = employee;
-        employeeIDs[address(employee)] = 0; //Remove old reference
+        employeeIDs[oldID] = address(0); //Remove old reference
         employeeIDs[_id] = employeeAddress;
     }
 
@@ -48,7 +62,7 @@ contract EmployeeRouter {
     }
 
     function getEmployeeById(uint _id) public view returns (Employee.employee memory) {
-        return employeeIDs[_id].getEmployeeData();
+        return employees[employeeIDs[_id]].getEmployeeData();
     }
 
     function countEmployees() public view returns (uint) {
