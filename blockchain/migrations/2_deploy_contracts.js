@@ -4,7 +4,6 @@ let WorkingOrderRouter = artifacts.require("router/WorkingOrderRouter.sol");
 let WorkStationEmployeeRouter = artifacts.require("router/WorkStationEmployeeRouter.sol");
 let WorkStationRouter = artifacts.require("router/WorkStationRouter.sol");
 
-
 module.exports = function (deployer) {
     deployer.deploy(EmployerRouter);
     deployer.deploy(TagRouter);
