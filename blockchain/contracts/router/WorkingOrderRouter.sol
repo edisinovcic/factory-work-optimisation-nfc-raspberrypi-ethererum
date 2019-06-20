@@ -34,7 +34,8 @@ contract WorkingOrderRouter {
         _;
     }
 
-    function addNewWorkingOrder(uint _id, Tag.tag[] memory _inputTags, Tag.tag memory _outputTag, string memory _status, string memory _statusDescription) public onlyOwner {
+    //"2",["0x5b0c9dc0afe417858dcc8db5269e47abc572aa77","0x5b0c9dc0afe417858dcc8db5269e47abc572aa77"],"0x5b0c9dc0afe417858dcc8db5269e47abc572aa77","test","test"
+    function addNewWorkingOrder(uint _id, address[] memory _inputTags, address _outputTag, string memory _status, string memory _statusDescription) public onlyOwner {
         WorkingOrder workingOrder = new WorkingOrder(_id, _inputTags, _outputTag, _status, _statusDescription);
         address workingOrderAddress = address(workingOrder);
         workingOrderList.push(workingOrderAddress) - 1;
@@ -43,7 +44,8 @@ contract WorkingOrderRouter {
         emit CreatedWorkingOrder(workingOrder);
     }
 
-    function updateWorkingOrder(address _address, uint _id, Tag.tag[] memory _inputTags, Tag.tag memory _outputTag, string memory _status, string memory _statusDescription) public workingOrderExists(_address) onlyOwner {
+    //"0xBa15db8C8D9BF7857C58b550bcE9968014251a34","2",["0x5b0c9dc0afe417858dcc8db5269e47abc572aa77","0x5b0c9dc0afe417858dcc8db5269e47abc572aa77"],"0x5b0c9dc0afe417858dcc8db5269e47abc572aa77","test2","test2"
+    function updateWorkingOrder(address _address, uint _id, address[] memory _inputTags, address  _outputTag, string memory _status, string memory _statusDescription) public workingOrderExists(_address) onlyOwner {
         WorkingOrder workingOrder = workingOrders[_address];
         address workingOrderAddress = address(workingOrder);
         workingOrder.update(_id, _inputTags, _outputTag, _status, _statusDescription);

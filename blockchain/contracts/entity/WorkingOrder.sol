@@ -3,14 +3,14 @@ pragma experimental ABIEncoderV2;
 
 import "./Tag.sol";
 
-contract WorkingOrder is Tag {
+contract WorkingOrder {
     address manager;
     workingOrder public workingOrderData;
 
     struct workingOrder {
         uint id;
-        Tag.tag[] inputTags;
-        Tag.tag outputTag;
+        address[] inputTags;
+        address outputTag;
         string status;
         string statusDescription;
     }
@@ -28,7 +28,7 @@ contract WorkingOrder is Tag {
         workingOrder _value
     );
 
-    constructor(uint _id, Tag.tag[] memory _inputTags, Tag.tag memory _outputTag, string memory _status, string memory _statusDescription) public {
+    constructor(uint _id, address[] memory _inputTags, address _outputTag, string memory _status, string memory _statusDescription) public {
         manager = msg.sender;
         workingOrderData = workingOrder({
             id : _id,
@@ -41,7 +41,7 @@ contract WorkingOrder is Tag {
         emit CreatedWorkingOrder(workingOrderData);
     }
 
-    function update(uint _id, Tag.tag[] memory _inputTags, Tag.tag memory _outputTag, string memory _status, string memory _statusDescription) public onlyOwner {
+    function update(uint _id, address[] memory _inputTags, address _outputTag, string memory _status, string memory _statusDescription) public onlyOwner {
         workingOrderData = workingOrder({
             id : _id,
             inputTags : _inputTags,
