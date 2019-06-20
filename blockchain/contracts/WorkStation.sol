@@ -1,4 +1,5 @@
 pragma solidity ^0.5.9;
+pragma experimental ABIEncoderV2;
 
 contract WorkStation {
 
@@ -11,6 +12,11 @@ contract WorkStation {
         bool active;
     }
 
+    modifier onlyOwner() {
+        require(manager == msg.sender, "Ownable: caller is not the owner");
+        _;
+    }
+
     event CreatedWorkStation(
         workStation _value
     );
@@ -19,8 +25,8 @@ contract WorkStation {
         workStation _value
     );
 
-    constructor(uint memory _id, string memory _description_, bool memory _active) {
-        manager = _sender;
+    constructor(uint _id, string memory _description_, bool _active) public {
+        manager = msg.sender;
         workStationData = workStation({
             id : _id,
             description : _description_,
@@ -30,7 +36,7 @@ contract WorkStation {
         emit CreatedWorkStation(workStationData);
     }
 
-    function update(uint memory _id, string memory _description, bool memory _active) onlyOwner {
+    function update(uint _id, string memory _description, bool _active) public onlyOwner {
         workStationData = workStation({
             id : _id,
             description : _description,
