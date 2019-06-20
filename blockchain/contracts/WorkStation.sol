@@ -40,7 +40,7 @@ contract WorkStation {
         emit UpdatedWorkStation(workStationData);
     }
 
-    function getWorkStationData() public view returns(workStation memroy) {
+    function getWorkStationData() public view returns(workStation memory) {
         return workStationData;
     }
 }

@@ -23,6 +23,7 @@ contract Handler {
     //=================================================================================
 
     mapping(address => Employee) private employees;
+    mapping(uint => adress) private employeeIDs;
     address[] private employeeList;
 
     event CreatedTag(Employee employee);
@@ -30,7 +31,7 @@ contract Handler {
     event DeletedTag(Employee employee);
 
     modifier employeeExists(address _address){
-        require(employees[_address].getEmployeeData().id != 0);
+        require(employees[_address].getEmployeeData().id != 0, 'Employee has to exist!');
         _;
     }
 
@@ -39,6 +40,7 @@ contract Handler {
         address employeeAddress = address(employee);
         employeeList.push(employeeAddress) - 1;
         employees[employeeAddress] = employee;
+        employeeIDs[_id] = employeeAddress;
         emit CreatedEmployee(employee);
     }
 
@@ -46,6 +48,8 @@ contract Handler {
         Employee employee = employees[_address];
         employee.update(_id, _active, _skills);
         employees[_address] = employee;
+        employeeIDs[address(employee)] = 0; //Remove old reference
+        employeeIDs[_id] = employeeAddress;
     }
 
     function getAllEmployees() public view returns (address[] memory)  {
@@ -56,7 +60,11 @@ contract Handler {
         return employees[_address].getEmployeeData();
     }
 
-    function countEmployees() view public returns (uint) {
+    function getEmployeeById(uint _id) public view returns (Employee.employee memory) {
+        return employeeIDs[_id].getEmployeeData();
+    }
+
+    function countEmployees() public view returns (uint) {
         return employeeList.length;
     }
 
@@ -66,6 +74,7 @@ contract Handler {
     //=================================================================================
 
     mapping(address => Tag) private tags;
+    mapping(id => address) private tagIDs;
     address[] private tagList;
 
     event CreatedTag(Tag tag);
@@ -73,7 +82,7 @@ contract Handler {
     event DeletedTag(Tag tag);
 
     modifier tagExists(address _address){
-        require(tags[_address].getTagData().id != 0);
+        require(tags[_address].getTagData().id != 0, 'Tag has to exist!');
         _;
     }
 
@@ -82,13 +91,16 @@ contract Handler {
         address tagAddress = address(tag);
         tagList.push(tagAddress) - 1;
         tags[tagAddress] = tag;
+        tagIDs[_id] = tagAddress;
         emit CreatedTag(tag);
     }
 
     function updateTag(address _address, uint _id, string memory _description, bool _active) public tagExists(_address) onlyOwner {
         Tag tag = tags[_address];
+        address tagAddress = address(tag);
         tag.update(_id, _description, _active);
         tags[_address] = tag;
+        tagIDs[_id] = tagAddress;
         emit UpdatedTag(tag);
     }
 
@@ -100,7 +112,11 @@ contract Handler {
         return tags[_address].getTagData();
     }
 
-    function countTags() view public returns (uint) {
+    function getTagById(uint _id) public view returns (Tag.tag memory){
+        return tagIDs[_id].getTagData();
+    }
+
+    function countTags() public view returns (uint) {
         return tagList.length;
     }
 
@@ -110,6 +126,7 @@ contract Handler {
     //=================================================================================
 
     mapping(address => WorkStation) private workStations;
+    mapping(id => address) private workStationsIDS;
     address[] private workStationList;
 
     event CreatedWorkStation(WorkStation workStation);
@@ -117,7 +134,7 @@ contract Handler {
     event DeletedWorkStation(WorkStation workStation);
 
     modifier workStationExists(address _address){
-        require(workStations[_address].getWorkStationData().id != 0);
+        require(workStations[_address].getWorkStationData().id != 0, 'Work station has to exist!');
         _;
     }
 
@@ -126,13 +143,18 @@ contract Handler {
         address workStationAddress = address(workStation);
         workStationList.push(workStationAddress) - 1;
         workStations[workStationAddress] = workStation;
+        workStationsIDS[_id] = workStationAddress;
+        
         emit CreatedWorkStation(workStation);
     }
 
-    function updateWorkStation(address _address, uint _id, string memory _description, bool _active) public tagExists(_address) onlyOwner {
-        Tag tag = tags[_address];
-        tag.update(_id, _description, _active);
-        tags[_address] = tag;
+    function updateWorkStation(address _address, uint _id, string memory _description, bool _active) public workStationExists(_address) onlyOwner {
+        WorkStation workStation = workStations[_address];
+        address workStationAddress = address(workStation);
+        workStation.update(_id, _description, _active);
+        workStations[workStationAddress] = workStation;
+        workStationIDs[_id] = workStationAddress;
+        
         emit UpdatedWorkStation(workStation);
     }
 
@@ -140,11 +162,15 @@ contract Handler {
         return workStationList;
     }
 
-    function getWorkStationByAddress(address _address) public view returns (Tag.tag memory){
+    function getWorkStationByAddress(address _address) public view returns (WorkStation.workStation memory){
         return workStations[_address].getWorkStationData();
     }
 
-    function countWorkStations() view public returns (uint) {
+    function getWorkStationById(uint _id) public view returns (WorkStation.workStation memory) {
+        return workStationIDs[_id].getWorkStationData();
+    }
+
+    function countWorkStations() public view returns (uint) {
         return workStationList.length;
     }
 
