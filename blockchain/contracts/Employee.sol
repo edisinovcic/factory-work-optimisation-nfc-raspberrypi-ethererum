@@ -1,4 +1,4 @@
-pragma solidity ^0.5.8;
+pragma solidity ^0.5.9;
 pragma experimental ABIEncoderV2;
 
 contract Employee {
@@ -36,7 +36,7 @@ contract Employee {
         emit CreatedEmployee(employeeData);
     }
 
-    function update(uint _id, address _address, bool _active, string memory _skills) public onlyOwner {
+    function update(uint _id, bool _active, string memory _skills) public onlyOwner {
         employeeData = employee({
             id : _id,
             active : _active,

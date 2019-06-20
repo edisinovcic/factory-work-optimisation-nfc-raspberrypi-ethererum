@@ -144,7 +144,6 @@ contract Handler {
         workStationList.push(workStationAddress) - 1;
         workStations[workStationAddress] = workStation;
         workStationsIDS[_id] = workStationAddress;
-        
         emit CreatedWorkStation(workStation);
     }
 
@@ -154,7 +153,6 @@ contract Handler {
         workStation.update(_id, _description, _active);
         workStations[workStationAddress] = workStation;
         workStationIDs[_id] = workStationAddress;
-        
         emit UpdatedWorkStation(workStation);
     }
 

@@ -31,7 +31,7 @@ contract WorkStation {
     }
 
     function update(uint memory _id, string memory _description, bool memory _active) onlyOwner {
-        workStationData ) workStation({
+        workStationData = workStation({
             id : _id,
             description : _description,
             active : _active

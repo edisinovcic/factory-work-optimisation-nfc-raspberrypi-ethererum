@@ -5,13 +5,14 @@ import "./Tag.sol";
 contract WorkingOrder {
 
     address manager;
+    workingOrder public workingOrderData;
 
     struct workingOrder {
         uint id;
         tag[] inputTags;
         tag outputTag;
         string status;
-        string status_description;
+        string statusDescription;
     }
 
     event CreatedWorkingOrder(
@@ -22,25 +23,34 @@ contract WorkingOrder {
         workingOrder _value
     );
 
-    constructor(uint memory _id, tag[] memory _inputTags, tag memory _outputTag, string memory _status, string memory _status_description) {
+    constructor(uint memory _id, tag[] memory _inputTags, tag memory _outputTag, string memory _status, string memory _statusDescription) public {
         manager = _sender;
-        workingOrder({
+        workingOrderData = workingOrder({
             id : _id,
-            description : _description_,
-            active : _active
+            inputTags : _inputTags,
+            outputTag : _outputTag,
+            status: _status,
+            statusDescription: _statusDescription
             });
 
-        emit CreatedTag(workingOrder);
+        emit CreatedTag(workingOrderData);
     }
 
-    function update(uint memory _id, tag[] memory _inputTags, tag memory _outputTag, string memory _status, string memory _status_description) onlyOwner {
-        workingOrder({
+    function update(uint memory _id, tag[] memory _inputTags, tag memory _outputTag, string memory _status, string memory _statusDescription) public onlyOwner {
+         workingOrderData = workingOrder({
             id : _id,
-            description : _description,
-            active : _active
+            inputTags : _inputTags,
+            outputTag : _outputTag,
+            status: _status,
+            statusDescription: _statusDescription
             });
 
-        emit UpdatedTag(workingOrder);
+
+        emit UpdatedTag(workingOrderData);
+    }
+
+    function getWorkingOrderData() public view returns(WorkingOrder memory) {
+        return workingOrderData;
     }
 
 }
