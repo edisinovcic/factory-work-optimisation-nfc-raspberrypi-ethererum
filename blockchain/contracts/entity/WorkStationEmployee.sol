@@ -1,8 +1,10 @@
 pragma solidity ^0.5.9;
+pragma experimental ABIEncoderV2;
 
 //WORK_STATION_EMPLOYEE:
-//- id_employee:uint
-//- id_work_station:uint
+//- id:uint
+//- employeeAddress:address
+//- workStationAddress:address
 //- time_start:string
 //- time_end:string
 //- status:bool (active/inactive)
@@ -18,8 +20,9 @@ contract WorkStationEmployee {
     }
 
     struct workStationEmployee {
-        uint employeeID;
-        uint workStationID;
+        uint id;
+        address employeeAddress;
+        address workStationAddress;
         string timeStart;
         string timeEnd;
     }
@@ -28,11 +31,12 @@ contract WorkStationEmployee {
     event UpdatedWorkStationEmployee(workStationEmployee _value);
     event DeletedWorkStationEmployee(workStationEmployee _value);
 
-    constructor(uint _employeeID, uint _workStationID, string memory _timeStart, string memory _timeEnd) public {
+    constructor(uint _id, address _employeeAddress, address _workStationAddress, string memory _timeStart, string memory _timeEnd) public {
         manager = msg.sender;
         workStationEmployeeData = workStationEmployee({
-            employeeID : _employeeID,
-            workStationID : _workStationID,
+            id: _id,
+            employeeAddress : _employeeAddress,
+            workStationAddress : _workStationAddress,
             timeStart : _timeStart,
             timeEnd : _timeEnd
             });
@@ -40,10 +44,11 @@ contract WorkStationEmployee {
         emit CreatedWorkStationEmployee(workStationEmployeeData);
     }
 
-    function update(uint _employeeID, uint _workStationID, string memory _timeStart, string memory _timeEnd) public onlyOwner {
-        workStationEmployeeData = workStationEmployeeData({
-            employeeID : _employeeID,
-            workStationID : _workStationID,
+    function update(uint _id, address _employeeAddress, address _workStationAddress, string memory _timeStart, string memory _timeEnd) public onlyOwner {
+        workStationEmployeeData = workStationEmployee({
+            id: _id,
+            employeeAddress : _employeeAddress,
+            workStationAddress : _workStationAddress,
             timeStart : _timeStart,
             timeEnd : _timeEnd
             });

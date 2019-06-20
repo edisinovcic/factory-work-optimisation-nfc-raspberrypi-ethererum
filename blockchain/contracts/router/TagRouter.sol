@@ -7,13 +7,13 @@ contract TagRouter {
 
     address manager;
 
+    constructor() public {
+        manager = msg.sender;
+    }
+
     modifier onlyOwner() {
         require(manager == msg.sender, "Ownable: caller is not the owner");
         _;
-    }
-
-    constructor() public {
-        manager = msg.sender;
     }
 
     //=================================================================================

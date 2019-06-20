@@ -4,6 +4,7 @@ pragma experimental ABIEncoderV2;
 import "./Tag.sol";
 
 contract WorkingOrder {
+
     address manager;
     workingOrder public workingOrderData;
 
