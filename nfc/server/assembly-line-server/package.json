@@ -1,0 +1,27 @@
+{
+  "name": "assembly-line",
+  "version": "1.0.0",
+  "description": "App for time tracking on assembly line",
+  "author": "Marin Zglav",
+  "license": "Unlicensed",
+  "dependencies": {
+    "bluebird": "^3.5.3",
+    "body-parser": "^1.18.3",
+    "circular-json": "^0.5.9",
+    "dotenv-safe": "^6.1.0",
+    "exceljs": "^1.6.3",
+    "express": "^4.16.4",
+    "pug": "^2.0.3",
+    "socket.io": "^2.2.0"
+  },
+  "devDependencies": {
+    "browserify": "^16.2.3",
+    "nodemon": "^1.18.4"
+  },
+  "scripts": {
+    "compile": "browserify ./public/js/index.js ./public/js/socket.js -o ./dist/bundle.js -v",
+    "client:watch": "watchify ./public/js/index.js ./public/js/socket.js -o ./dist/bundle.js -v",
+    "dev:start": "nodemon app.js",
+    "start": "node app.js"
+  }
+}
