@@ -1,8 +1,8 @@
 pragma solidity ^0.5.9;
 pragma experimental ABIEncoderV2;
 
-import './Tag.sol';
-import "./WorkingOrder.sol";
+import '../entity/Tag.sol';
+import "../entity/WorkingOrder.sol";
 
 contract WorkingOrderRouter {
 

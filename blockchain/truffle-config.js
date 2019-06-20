@@ -1,27 +1,13 @@
-/**
- * Use this file to configure your truffle project. It's seeded with some
- * common settings for different networks and features like migrations,
- * compilation and testing. Uncomment the ones you need or modify
- * them to suit your project as necessary.
- *
- * More information about configuration can be found at:
- *
- * truffleframework.com/docs/advanced/configuration
- *
- * To deploy via Infura you'll need a wallet provider (like truffle-hdwallet-provider)
- * to sign your transactions before they're sent to a remote public node. Infura accounts
- * are available for free at: infura.io/register.
- *
- * You'll also need a mnemonic - the twelve word phrase the wallet uses to generate
- * public/private key pairs. If you're publishing your code to GitHub make sure you load this
- * phrase from a file you've .gitignored so it doesn't accidentally become public.
- *
- */
+let HDWalletProvider = require('truffle-hdwallet-provider');
+const path = require('path');
+const dotenv = require('dotenv');
 
-const HDWalletProvider = require('truffle-hdwallet-provider');
+let options = {};
+options.path = path.resolve(process.cwd(), '../.env');
+dotenv.config(options);
 
-const fs = require('fs');
-const mnemonic = fs.readFileSync(".secret").toString().trim();
+let privateKey = process.env.PRIVATE_KEY;
+console.log(privateKey);
 
 module.exports = {
 
@@ -33,9 +19,10 @@ module.exports = {
         // options below to some value.
         //
         development: {
-            host: "127.0.0.1",     // Localhost (default: none)
-            port: 8545,            // Standard Ethereum port (default: none)
-            network_id: "*",       // Any network (default: none)
+            provider: new HDWalletProvider(privateKey, "http://localhost:8545"),
+            network_id: "*",
+            gasPrice: 0,
+            gas: "9000000000000"
         },
 
         // Another network with more advanced options...
@@ -86,5 +73,3 @@ module.exports = {
         }
     }
 }
-}
-;
