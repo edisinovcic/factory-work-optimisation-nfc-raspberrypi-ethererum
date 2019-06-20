@@ -3,6 +3,7 @@ pragma experimental ABIEncoderV2;
 
 import './Tag.sol';
 import "./Employee.sol";
+import "./WorkStation.sol";
 
 contract Handler {
 
@@ -59,6 +60,7 @@ contract Handler {
         return employeeList.length;
     }
 
+
     //=================================================================================
     //Tag handler
     //=================================================================================
@@ -106,6 +108,45 @@ contract Handler {
     //=================================================================================
     // WorkStation handler
     //=================================================================================
+
+    mapping(address => WorkStation) private workStations;
+    address[] private workStationList;
+
+    event CreatedWorkStation(WorkStation workStation);
+    event UpdatedWorkStation(WorkStation workStation);
+    event DeletedWorkStation(WorkStation workStation);
+
+    modifier workStationExists(address _address){
+        require(workStations[_address].getWorkStationData().id != 0);
+        _;
+    }
+
+    function addNewWorkStation(uint _id, string memory _description, bool _active) public onlyOwner {
+        WorkStation workStation = new WorkStation(_id, _description, _active);
+        address workStationAddress = address(workStation);
+        workStationList.push(workStationAddress) - 1;
+        workStations[workStationAddress] = workStation;
+        emit CreatedWorkStation(workStation);
+    }
+
+    function updateWorkStation(address _address, uint _id, string memory _description, bool _active) public tagExists(_address) onlyOwner {
+        Tag tag = tags[_address];
+        tag.update(_id, _description, _active);
+        tags[_address] = tag;
+        emit UpdatedWorkStation(workStation);
+    }
+
+    function getAllWorkStations() public view returns (address[] memory)  {
+        return workStationList;
+    }
+
+    function getWorkStationByAddress(address _address) public view returns (Tag.tag memory){
+        return workStations[_address].getWorkStationData();
+    }
+
+    function countWorkStations() view public returns (uint) {
+        return workStationList.length;
+    }
 
 
     //=================================================================================
