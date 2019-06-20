@@ -1,10 +1,9 @@
 pragma solidity ^0.5.9;
 pragma experimental ABIEncoderV2;
 
-
 import "./Tag.sol";
 
-contract WorkingOrder {
+contract WorkingOrder is Tag {
     address manager;
     workingOrder public workingOrderData;
 

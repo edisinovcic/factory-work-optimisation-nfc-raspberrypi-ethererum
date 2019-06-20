@@ -1,7 +1,7 @@
 pragma solidity ^0.5.9;
 pragma experimental ABIEncoderV2;
 
-import "./Employee.sol";
+import "../entity/Employee.sol";
 
 contract EmployeeRouter {
 
