@@ -1,0 +1,17 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Backend interface between blockchain geth nodes and nfc readers on raspberry pi",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Blockchain IT",
+  "email": "info@blockchain-it.hr",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "body-parser": "^1.19.0",
+    "path": "^0.12.7"
+  }
+}
