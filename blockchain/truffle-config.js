@@ -22,7 +22,7 @@ module.exports = {
             provider: new HDWalletProvider(privateKey, "http://localhost:8545"),
             network_id: "*",
             gasPrice: 0,
-            gas: "9000000000000"
+            gas: "900000000000000"
         },
 
         // Another network with more advanced options...
