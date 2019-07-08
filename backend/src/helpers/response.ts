@@ -1,3 +1,13 @@
+/*
+interface ResponseInterface{
+    code: number;
+    success: boolean;
+    message: string;
+    elapsedTime: number;
+    data: string[];
+    err: string
+}
+
 function Response() {
     this.code = 200;
     this.success = true;
@@ -6,6 +16,7 @@ function Response() {
     this.data = {};
     this.err = "";
 }
+
 
 function successResponse(message, data, time) {
     let res = new Response();
@@ -63,3 +74,4 @@ module.exports = {
     badRequest,
     unauthorized
 };
+*/

@@ -1,4 +1,4 @@
-const {responseModel} = require('../model');
+const {responseModel} = require('../helpers/index');
 
 class BadRequest extends Error {
 

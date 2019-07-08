@@ -51,6 +51,7 @@ contract EmployeeRouter {
         employees[_address] = employee;
         employeeIDs[oldID] = address(0); //Remove old reference
         employeeIDs[_id] = employeeAddress;
+        emit UpdatedEmployee(employee);
     }
 
     function getAllEmployees() public view returns (address[] memory)  {
