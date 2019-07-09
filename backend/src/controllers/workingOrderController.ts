@@ -1,7 +1,7 @@
 import { BaseController } from "./baseController";
 import { WorkingOrder } from "../model/workingOrder";
 
-class WorkingOrderController implements BaseController {
+export class WorkingOrderController implements BaseController {
     getAll(): WorkingOrder[] {
         let workingOrder;
 

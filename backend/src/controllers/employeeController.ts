@@ -2,7 +2,6 @@ import { BaseController } from "./baseController";
 import { Employee } from "../model/employee";
 import { WalletHandler } from "../services/walletHandler";
 import { ethers } from "ethers";
-//import { Helpers } from "../helpers/helpers";
 
 export class EmployeeController implements BaseController {
 
