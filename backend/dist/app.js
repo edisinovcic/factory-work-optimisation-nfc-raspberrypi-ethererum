@@ -12,12 +12,35 @@ const path_1 = __importDefault(require("path"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config({ path: path_1.default.resolve(process.cwd(), ".env") });
 // Load employee blockchain data
-const employeeRouterData = require("../../blockchain/build/contracts/EmployeeRouter.json");
+const employeeData = require("../../blockchain/build/contracts/EmployeeRouter.json");
 global.employeeData = {
-    contractAddress: employeeRouterData.networks[process.env.NETWORK_ID].address,
-    abi: JSON.stringify(employeeRouterData.abi)
+    contractAddress: employeeData.networks[process.env.NETWORK_ID].address,
+    abi: JSON.stringify(employeeData.abi)
 };
 // Load tag data
+const tagData = require("../../blockchain/build/contracts/TagRouter.json");
+global.tagData = {
+    contractAddress: tagData.networks[process.env.NETWORK_ID].address,
+    abi: JSON.stringify(tagData.abi)
+};
+// Load workingOrder data
+const workingOrderData = require("../../blockchain/build/contracts/WorkingOrderRouter.json");
+global.workingOrderData = {
+    contractAddress: workingOrderData.networks[process.env.NETWORK_ID].address,
+    abi: JSON.stringify(workingOrderData.abi)
+};
+// Load workStation data
+const workStationData = require("../../blockchain/build/contracts/WorkStationRouter.json");
+global.workStationData = {
+    contractAddress: workStationData.networks[process.env.NETWORK_ID].address,
+    abi: JSON.stringify(workStationData.abi)
+};
+// Load workStationEmployee data
+const workStationEmployeeData = require("../../blockchain/build/contracts/WorkingOrderRouter.json");
+global.workStationEmployeeData = {
+    contractAddress: workStationEmployeeData.networks[process.env.NETWORK_ID].address,
+    abi: JSON.stringify(workStationEmployeeData.abi)
+};
 // Routes (route handlers)
 const tag_1 = __importDefault(require("./routes/tag"));
 const employee_1 = __importDefault(require("./routes/employee"));
