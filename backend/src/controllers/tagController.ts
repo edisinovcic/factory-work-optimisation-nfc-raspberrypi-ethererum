@@ -4,8 +4,8 @@ import { Tag } from "../model/tag";
 export class TagController implements BaseController {
 
     getAll(): Tag[] {
-        let list = null;
-
+        let list;
+        
         return list;
     }
 

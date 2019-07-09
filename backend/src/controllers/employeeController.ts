@@ -1,28 +1,24 @@
 import { BaseController } from "./baseController";
 import { Employee } from "../model/employee";
-import { WalletHandler } from '../services/walletHandler';
-import { ethers } from 'ethers';
-
-const employeeRouterData = require('../../../blockchain/build/contracts/EmployeeRouter');
-const networkId = process.env.NETWORK_ID;
-const employeeRouterAddress = employeeRouterData.networks[networkId].address;
-const employeeRouterAbi = employeeRouterData.abi;
+import { WalletHandler } from "../services/walletHandler";
+import { ethers } from "ethers";
+//import { Helpers } from "../helpers/helpers";
 
 export class EmployeeController implements BaseController {
 
     getAll(): Employee[] {
-        let wallet = WalletHandler.getProviderForUser();
-        let employeeRouter = new ethers.Contract(employeeRouterAddress, employeeRouterAbi, wallet);
+        const wallet = WalletHandler.getProviderForUser();
+        const employeeRouter = new ethers.Contract(global.employeeData.contractAddress, global.employeeData.abi, wallet);
         let employeeList;
-        let promise = employeeRouter.getAllEmployees();
+        const promise = employeeRouter.getAllEmployees();
 
         promise
-            .on('error', (error: any) => {
+            .on("error", (error: any) => {
                 console.log(error.message);
                 console.log("Deployment failed with error: " + error.message);
                 promise.reject(new Error(error.message));
             })
-            .on('receipt', (receipt: any) => {
+            .on("receipt", (receipt: any) => {
                 employeeList = receipt;
             });
 
@@ -30,8 +26,8 @@ export class EmployeeController implements BaseController {
     }
 
     getByID(id: number): Employee {
+// tslint:disable-next-line: prefer-const
         let employee;
-
         return employee;
     }
 
