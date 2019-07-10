@@ -9,9 +9,9 @@ const router = Router();
 
 const employeeControler = new EmployeeController();
 
-router.get("/", (req: Request, res: Response, next: NextFunction) => {
+router.get("/", async (req: Request, res: Response, next: NextFunction) => {
     const start = performance.now();
-    const result = employeeControler.getAll();
+    const result = await employeeControler.getAll();
     const time = performance.now() - start;
     res.status(200).json(
         {
@@ -26,8 +26,16 @@ router.get("/:id", async (req: Request, res: Response) => {
 });
 
 
-router.post("/", (req: Request, res: Response, next: NextFunction) => {
-    // TODO:
+router.post("/", async (req: Request, res: Response, next: NextFunction) => {
+    const start = performance.now();
+    const address = await employeeControler.create(req.body);
+    const time = performance.now() - start;
+    res.status(200).json(
+        {
+            address: address,
+            time: time
+        }
+    );
 });
 
 

@@ -5,34 +5,38 @@ import { ethers } from "ethers";
 
 export class EmployeeController implements BaseController {
 
-    getAll(): Employee[] {
+    async getAll(): Promise<any> {
         const wallet = WalletHandler.getProviderForUser();
         const employeeRouter = new ethers.Contract(global.employeeData.contractAddress, global.employeeData.abi, wallet);
-        let employeeList;
-        const promise = employeeRouter.getAllEmployees();
-
-        promise
-            .on("error", (error: any) => {
-                console.log(error.message);
-                console.log("Deployment failed with error: " + error.message);
-                promise.reject(new Error(error.message));
-            })
-            .on("receipt", (receipt: any) => {
-                employeeList = receipt;
-            });
-
-        return employeeList;
+        return await employeeRouter.getAllEmployees();
     }
 
     getByID(id: number): Employee {
-// tslint:disable-next-line: prefer-const
         let employee;
+        //TODO:
         return employee;
     }
 
-    create(employee: Employee): Employee {
+    // Add timeout for request when request lasts too much
+    async create(employee: Employee): Promise<any> {
+        const wallet = WalletHandler.getProviderForUser();
+        const employeeRouter = new ethers.Contract(global.employeeData.contractAddress, global.employeeData.abi, wallet);
+        const tx = await employeeRouter.addNewEmployee(employee.id, employee.active, employee.skills);
+        const txPromise = tx.wait();
+        const employeeCreationPromise = new Promise((resolve, reject) => {
+            employeeRouter
+            .on(("CreatedEmployee"), (receipt: any) => {
+                console.log(receipt);
+                resolve(receipt);
+            });
+        });
 
-        return employee;
+        return Promise.all([employeeCreationPromise, txPromise])
+        .then((result) => {
+            return result[0];
+        }).catch((error) => {
+            throw new Error(error.message);
+        });
     }
 
     update(id: number, employee: Employee): Employee {

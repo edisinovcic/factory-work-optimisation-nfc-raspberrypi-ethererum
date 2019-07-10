@@ -68,7 +68,7 @@ app.use("/api/workStation", workStationRouter);
 app.use("/api/workStationEmployee", workStationEmployeeRouter);
 
 // app.use(errorHandler(customErrorHandler));
-app.listen(("port"), () => {
+app.listen(port, () => {
     console.log(
         "App is running at http://localhost:%d in %s mode",
         port,

@@ -6,23 +6,23 @@ const providerUrl = process.env.RPC_ENDPOINT;
 
 export class WalletHandler {
     static getProviderForUser() {
-        let username = process.env.WALLET_OWNER;
-        const walletPath = path.join(__dirname, '../../wallet/', username);
+        const username = process.env.WALLET_OWNER;
+        const walletPath = path.join(__dirname, "../../wallet/", username);
         let mnemonic, privatekey, walletaddress;
-        let files = fs.readdirSync(walletPath);
+        const files = fs.readdirSync(walletPath);
         files.forEach(function (file) {
-            if (file.split('.')[1] === 'mnemonic') {
+            if (file.split(".")[1] === "mnemonic") {
                 mnemonic = fs.readFileSync(path.join(walletPath, file)).toString();
             }
-            if (file.split('.')[1] === 'privatekey') {
+            if (file.split(".")[1] === "privatekey") {
                 privatekey = fs.readFileSync(path.join(walletPath, file)).toString();
             }
-            if (file.split('.')[1] === 'walletaddress') {
+            if (file.split(".")[1] === "walletaddress") {
                 walletaddress = fs.readFileSync(path.join(walletPath, file)).toString();
             }
         });
 
-        let provider = new ethers.providers.JsonRpcProvider(providerUrl);
+        const provider = new ethers.providers.JsonRpcProvider(providerUrl);
         return new ethers.Wallet(privatekey, provider);
     }
 }
