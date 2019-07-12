@@ -2,6 +2,12 @@ import { BaseController } from "./baseController";
 import { WorkStation } from "../model/workStation";
 
 export class WorkStationController implements BaseController {
+    getAllContents() {
+        throw new Error("Method not implemented.");
+    }
+    getByAddress(address: string) {
+        throw new Error("Method not implemented.");
+    }
     getAll(): WorkStation[] {
         let workStation;
 

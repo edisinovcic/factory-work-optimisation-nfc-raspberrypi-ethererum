@@ -2,7 +2,9 @@ import { BaseController } from "./baseController";
 import { Tag } from "../model/tag";
 
 export class TagController implements BaseController {
-
+    getAllContents() {
+        throw new Error("Method not implemented.");
+    }
     getAll(): Tag[] {
         let list;
         
@@ -14,6 +16,10 @@ export class TagController implements BaseController {
 
 
         return tag;
+    }
+
+    getByAddress(address: string) {
+        // TODO:
     }
 
     create(tag: Tag): Tag {
