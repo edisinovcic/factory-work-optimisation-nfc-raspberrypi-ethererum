@@ -12,24 +12,57 @@ const express_1 = require("express");
 const perf_hooks_1 = require("perf_hooks");
 const tagController_1 = require("../controllers/tagController");
 const router = express_1.Router();
-const tagController = new tagController_1.TagController();
-router.get("/", (req, res, next) => {
+const tagControler = new tagController_1.TagController();
+router.get("/", (req, res, next) => __awaiter(this, void 0, void 0, function* () {
     const start = perf_hooks_1.performance.now();
-    const result = tagController.getAll();
+    const result = yield tagControler.getAll();
     const time = perf_hooks_1.performance.now() - start;
     res.status(200).json({
         result: result,
         time: time
     });
-});
-router.get("/:id", (req, res) => __awaiter(this, void 0, void 0, function* () {
-    // TODO:
 }));
-router.post("/", (req, res, next) => {
-    // TODO:
-});
+router.get("/content", (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+    const start = perf_hooks_1.performance.now();
+    const result = yield tagControler.getAllContents();
+    const time = perf_hooks_1.performance.now() - start;
+    res.status(200).json({
+        result: result,
+        time: time
+    });
+}));
+router.get("/params", (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+    const start = perf_hooks_1.performance.now();
+    let result;
+    if (req.query.id !== undefined) {
+        result = yield tagControler.getByID(req.query.id);
+    }
+    else if (req.query.address !== undefined) {
+        result = yield tagControler.getByAddress(req.query.address);
+    }
+    const time = perf_hooks_1.performance.now() - start;
+    res.status(200).json({
+        result: result,
+        time: time
+    });
+}));
+router.post("/", (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+    const start = perf_hooks_1.performance.now();
+    const address = yield tagControler.create(req.body);
+    const time = perf_hooks_1.performance.now() - start;
+    res.status(200).json({
+        address: address,
+        time: time
+    });
+}));
 router.put("/:id", (req, res, next) => __awaiter(this, void 0, void 0, function* () {
-    // TODO:
+    const start = perf_hooks_1.performance.now();
+    const address = yield tagControler.update(req.params.id, req.body);
+    const time = perf_hooks_1.performance.now() - start;
+    res.status(200).json({
+        address: address,
+        time: time
+    });
 }));
 exports.default = router;
 //# sourceMappingURL=tag.js.map

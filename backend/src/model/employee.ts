@@ -1,4 +1,3 @@
-
 export class Employee {
     id: number;
     active: boolean;

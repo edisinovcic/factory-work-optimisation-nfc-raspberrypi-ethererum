@@ -7,11 +7,11 @@ import { TagController } from "../controllers/tagController";
 
 const router = Router();
 
-const tagController = new TagController();
+const tagControler = new TagController();
 
-router.get("/", (req: Request, res: Response, next: NextFunction) => {
+router.get("/", async (req: Request, res: Response, next: NextFunction) => {
     const start = performance.now();
-    const result = tagController.getAll();
+    const result = await tagControler.getAll();
     const time = performance.now() - start;
     res.status(200).json(
         {
@@ -21,18 +21,59 @@ router.get("/", (req: Request, res: Response, next: NextFunction) => {
     );
 });
 
-router.get("/:id", async (req: Request, res: Response) => {
-    // TODO:
+router.get("/content", async (req: Request, res: Response, next: NextFunction) => {
+    const start = performance.now();
+    const result = await tagControler.getAllContents();
+    const time = performance.now() - start;
+    res.status(200).json(
+        {
+            result: result,
+            time: time
+        }
+    );
+});
+
+router.get("/params", async (req: Request, res: Response, next: NextFunction) => {
+    const start = performance.now();
+    let result;
+    if (req.query.id !== undefined) {
+        result = await tagControler.getByID(req.query.id);
+    } else if (req.query.address !== undefined) {
+        result = await tagControler.getByAddress(req.query.address);
+    }
+    const time = performance.now() - start;
+    res.status(200).json(
+        {
+            result: result,
+            time: time
+        }
+    );
 });
 
 
-router.post("/", (req: Request, res: Response, next: NextFunction) => {
-    // TODO:
+router.post("/", async (req: Request, res: Response, next: NextFunction) => {
+    const start = performance.now();
+    const address = await tagControler.create(req.body);
+    const time = performance.now() - start;
+    res.status(200).json(
+        {
+            address: address,
+            time: time
+        }
+    );
 });
 
 
 router.put("/:id", async (req: Request, res: Response, next: NextFunction) => {
-    // TODO:
+    const start = performance.now();
+    const address = await tagControler.update(req.params.id, req.body);
+    const time = performance.now() - start;
+    res.status(200).json(
+        {
+            address: address,
+            time: time
+        }
+    );
 });
 
 
