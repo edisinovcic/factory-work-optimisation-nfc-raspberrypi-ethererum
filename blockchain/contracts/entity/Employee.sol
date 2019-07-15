@@ -12,7 +12,7 @@ contract Employee {
     }
 
     struct employee {
-        uint id;
+        string id;
         bool active;
         string skills;
     }
@@ -25,7 +25,7 @@ contract Employee {
         employee _value
     );
 
-    constructor(uint _id, bool _active, string memory _skills) public {
+    constructor(string memory _id, bool _active, string memory _skills) public {
         manager = msg.sender;
         employeeData = employee({
             id : _id,
@@ -36,7 +36,7 @@ contract Employee {
         emit CreatedEmployee(employeeData);
     }
 
-    function update(uint _id, bool _active, string memory _skills) public onlyOwner {
+    function update(string memory _id, bool _active, string memory _skills) public onlyOwner {
         employeeData = employee({
             id : _id,
             active : _active,

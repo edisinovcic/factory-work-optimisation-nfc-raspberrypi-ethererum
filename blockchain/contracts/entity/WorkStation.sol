@@ -7,7 +7,7 @@ contract WorkStation {
     workStation public workStationData;
 
     struct workStation {
-        uint id;
+        string id;
         string description;
         bool active;
     }
@@ -25,7 +25,7 @@ contract WorkStation {
         workStation _value
     );
 
-    constructor(uint _id, string memory _description_, bool _active) public {
+    constructor(string memory _id, string memory _description_, bool _active) public {
         manager = msg.sender;
         workStationData = workStation({
             id : _id,
@@ -36,7 +36,7 @@ contract WorkStation {
         emit CreatedWorkStation(workStationData);
     }
 
-    function update(uint _id, string memory _description, bool _active) public onlyOwner {
+    function update(string memory _id, string memory _description, bool _active) public onlyOwner {
         workStationData = workStation({
             id : _id,
             description : _description,

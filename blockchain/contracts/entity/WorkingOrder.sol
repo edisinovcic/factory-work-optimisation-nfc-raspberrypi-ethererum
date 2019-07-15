@@ -9,7 +9,7 @@ contract WorkingOrder {
     workingOrder public workingOrderData;
 
     struct workingOrder {
-        uint id;
+        string id;
         address[] inputTags;
         address outputTag;
         string status;
@@ -29,7 +29,7 @@ contract WorkingOrder {
         workingOrder _value
     );
 
-    constructor(uint _id, address[] memory _inputTags, address _outputTag, string memory _status, string memory _statusDescription) public {
+    constructor(string memory _id, address[] memory _inputTags, address _outputTag, string memory _status, string memory _statusDescription) public {
         manager = msg.sender;
         workingOrderData = workingOrder({
             id : _id,
@@ -42,7 +42,7 @@ contract WorkingOrder {
         emit CreatedWorkingOrder(workingOrderData);
     }
 
-    function update(uint _id, address[] memory _inputTags, address _outputTag, string memory _status, string memory _statusDescription) public onlyOwner {
+    function update(string memory _id, address[] memory _inputTags, address _outputTag, string memory _status, string memory _statusDescription) public onlyOwner {
         workingOrderData = workingOrder({
             id : _id,
             inputTags : _inputTags,

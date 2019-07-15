@@ -22,7 +22,7 @@ contract WorkingOrderRouter {
     //=================================================================================
 
     mapping(address => WorkingOrder) private workingOrders;
-    mapping(uint => address) private workingOrderIDs;
+    mapping(string => address) private workingOrderIDs;
     address[] private workingOrderList;
 
     event CreatedWorkingOrder(WorkingOrder workOrder);
@@ -30,12 +30,12 @@ contract WorkingOrderRouter {
     event DeletedWorkingOrder(WorkingOrder workOrder);
 
     modifier workingOrderExists(address _address){
-        require(workingOrders[_address].getWorkingOrderData().id != 0, 'Working order has to exist!');
+        require(bytes(workingOrders[_address].getWorkingOrderData().id).length != 0, 'Working order has to exist!');
         _;
     }
 
     //"2",["0x5b0c9dc0afe417858dcc8db5269e47abc572aa77","0x5b0c9dc0afe417858dcc8db5269e47abc572aa77"],"0x5b0c9dc0afe417858dcc8db5269e47abc572aa77","test","test"
-    function addNewWorkingOrder(uint _id, address[] memory _inputTags, address _outputTag, string memory _status, string memory _statusDescription) public onlyOwner {
+    function addNewWorkingOrder(string memory _id, address[] memory _inputTags, address _outputTag, string memory _status, string memory _statusDescription) public onlyOwner {
         WorkingOrder workingOrder = new WorkingOrder(_id, _inputTags, _outputTag, _status, _statusDescription);
         address workingOrderAddress = address(workingOrder);
         workingOrderList.push(workingOrderAddress) - 1;
@@ -45,7 +45,7 @@ contract WorkingOrderRouter {
     }
 
     //"0xBa15db8C8D9BF7857C58b550bcE9968014251a34","2",["0x5b0c9dc0afe417858dcc8db5269e47abc572aa77","0x5b0c9dc0afe417858dcc8db5269e47abc572aa77"],"0x5b0c9dc0afe417858dcc8db5269e47abc572aa77","test2","test2"
-    function updateWorkingOrder(address _address, uint _id, address[] memory _inputTags, address  _outputTag, string memory _status, string memory _statusDescription) public workingOrderExists(_address) onlyOwner {
+    function updateWorkingOrder(address _address, string memory _id, address[] memory _inputTags, address  _outputTag, string memory _status, string memory _statusDescription) public workingOrderExists(_address) onlyOwner {
         WorkingOrder workingOrder = workingOrders[_address];
         address workingOrderAddress = address(workingOrder);
         workingOrder.update(_id, _inputTags, _outputTag, _status, _statusDescription);
@@ -62,7 +62,7 @@ contract WorkingOrderRouter {
         return workingOrders[_address].getWorkingOrderData();
     }
 
-    function getWorkingOrderById(uint _id) public view returns (WorkingOrder.workingOrder memory) {
+    function getWorkingOrderById(string memory _id) public view returns (WorkingOrder.workingOrder memory) {
         return workingOrders[workingOrderIDs[_id]].getWorkingOrderData();
     }
 

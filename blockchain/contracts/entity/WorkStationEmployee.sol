@@ -20,7 +20,7 @@ contract WorkStationEmployee {
     }
 
     struct workStationEmployee {
-        uint id;
+        string id;
         address employeeAddress;
         address workStationAddress;
         string timeStart;
@@ -31,7 +31,7 @@ contract WorkStationEmployee {
     event UpdatedWorkStationEmployee(workStationEmployee _value);
     event DeletedWorkStationEmployee(workStationEmployee _value);
 
-    constructor(uint _id, address _employeeAddress, address _workStationAddress, string memory _timeStart, string memory _timeEnd) public {
+    constructor(string memory _id, address _employeeAddress, address _workStationAddress, string memory _timeStart, string memory _timeEnd) public {
         manager = msg.sender;
         workStationEmployeeData = workStationEmployee({
             id: _id,
@@ -44,7 +44,7 @@ contract WorkStationEmployee {
         emit CreatedWorkStationEmployee(workStationEmployeeData);
     }
 
-    function update(uint _id, address _employeeAddress, address _workStationAddress, string memory _timeStart, string memory _timeEnd) public onlyOwner {
+    function update(string memory _id, address _employeeAddress, address _workStationAddress, string memory _timeStart, string memory _timeEnd) public onlyOwner {
         workStationEmployeeData = workStationEmployee({
             id: _id,
             employeeAddress : _employeeAddress,

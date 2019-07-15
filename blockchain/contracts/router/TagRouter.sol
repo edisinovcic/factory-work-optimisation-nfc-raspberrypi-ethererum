@@ -21,7 +21,7 @@ contract TagRouter {
     //=================================================================================
 
     mapping(address => Tag) private tags;
-    mapping(uint => address) private tagIDs;
+    mapping(string => address) private tagIDs;
     address[] private tagList;
 
     event CreatedTag(Tag tag);
@@ -29,12 +29,12 @@ contract TagRouter {
     event DeletedTag(Tag tag);
 
     modifier tagExists(address _address){
-        require(tags[_address].getTagData().id != 0, 'Tag has to exist!');
+        require(bytes(tags[_address].getTagData().id).length != 0, 'Tag has to exist!');
         _;
     }
 
-    function addNewTag(uint _id, string memory _description, bool _active) public onlyOwner {
-        Tag tag = new Tag(_id, _description, _active);
+    function addNewTag(string memory _id, bool _active, string memory _description) public onlyOwner {
+        Tag tag = new Tag(_id, _active, _description);
         address tagAddress = address(tag);
         tagList.push(tagAddress) - 1;
         tags[tagAddress] = tag;
@@ -42,10 +42,10 @@ contract TagRouter {
         emit CreatedTag(tag);
     }
 
-    function updateTag(address _address, uint _id, string memory _description, bool _active) public tagExists(_address) onlyOwner {
+    function updateTag(address _address, string memory _id, bool _active, string memory _description) public tagExists(_address) onlyOwner {
         Tag tag = tags[_address];
         address tagAddress = address(tag);
-        tag.update(_id, _description, _active);
+        tag.update(_id, _active, _description);
         tags[_address] = tag;
         tagIDs[_id] = tagAddress;
         emit UpdatedTag(tag);
@@ -59,7 +59,7 @@ contract TagRouter {
         return tags[_address].getTagData();
     }
 
-    function getTagById(uint _id) public view returns (Tag.tag memory){
+    function getTagById(string memory _id) public view returns (Tag.tag memory){
         return tags[tagIDs[_id]].getTagData();
     }
 

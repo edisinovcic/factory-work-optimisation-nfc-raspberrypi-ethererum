@@ -21,7 +21,7 @@ contract WorkStationEmployeeRouter {
     //=================================================================================
 
     mapping(address => WorkStationEmployee) private workStationEmployees;
-    mapping(uint => address) private workStationEmployeeIDs;
+    mapping(string => address) private workStationEmployeeIDs;
     address[] private workStationEmployeeList;
 
     event CreatedWorkStationEmployee(WorkStationEmployee workStationEmployee);
@@ -33,7 +33,7 @@ contract WorkStationEmployeeRouter {
         _;
     }
 
-    function addNewWorkStationEmployee(uint _id, address _employeeAddress, address _workStationAddress, string memory _timeStart, string memory _timeEnd) public onlyOwner {
+    function addNewWorkStationEmployee(string memory _id, address _employeeAddress, address _workStationAddress, string memory _timeStart, string memory _timeEnd) public onlyOwner {
         WorkStationEmployee workStationEmployee = new WorkStationEmployee(_id, _employeeAddress, _workStationAddress, _timeStart, _timeEnd);
         address workStationEmployeeAddress = address(workStationEmployee);
         workStationEmployeeList.push(workStationEmployeeAddress) - 1;
@@ -42,7 +42,7 @@ contract WorkStationEmployeeRouter {
         emit CreatedWorkStationEmployee(workStationEmployee);
     }
 
-    function updateWorkStationEmployee(address _address, uint _id, address _employeeAddress, address _workStationAddress, string memory _timeStart, string memory _timeEnd) public workStationEmployeeExists(_address) onlyOwner {
+    function updateWorkStationEmployee(address _address, string memory _id, address _employeeAddress, address _workStationAddress, string memory _timeStart, string memory _timeEnd) public workStationEmployeeExists(_address) onlyOwner {
         WorkStationEmployee workStationEmployee = workStationEmployees[_address];
         address workStationEmployeeAddress = address(workStationEmployee);
         workStationEmployee.update(_id, _employeeAddress, _workStationAddress, _timeStart, _timeEnd);
@@ -59,7 +59,7 @@ contract WorkStationEmployeeRouter {
         return workStationEmployees[_address].getWorkStationEmployeeData();
     }
 
-    function getWorkStationEmployeeById(uint _id) public view returns (WorkStationEmployee.workStationEmployee memory) {
+    function getWorkStationEmployeeById(string memory _id) public view returns (WorkStationEmployee.workStationEmployee memory) {
         return workStationEmployees[workStationEmployeeIDs[_id]].getWorkStationEmployeeData();
     }
 

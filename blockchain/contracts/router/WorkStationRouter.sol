@@ -21,7 +21,7 @@ contract WorkStationRouter {
     //=================================================================================
 
     mapping(address => WorkStation) private workStations;
-    mapping(uint => address) private workStationIDs;
+    mapping(string => address) private workStationIDs;
     address[] private workStationList;
 
     event CreatedWorkStation(WorkStation workStation);
@@ -29,11 +29,11 @@ contract WorkStationRouter {
     event DeletedWorkStation(WorkStation workStation);
 
     modifier workStationExists(address _address){
-        require(workStations[_address].getWorkStationData().id != 0, 'Work station has to exist!');
+        require(bytes(workStations[_address].getWorkStationData().id).length != 0, 'Work station has to exist!');
         _;
     }
 
-    function addNewWorkStation(uint _id, string memory _description, bool _active) public onlyOwner {
+    function addNewWorkStation(string memory _id, string memory _description, bool _active) public onlyOwner {
         WorkStation workStation = new WorkStation(_id, _description, _active);
         address workStationAddress = address(workStation);
         workStationList.push(workStationAddress) - 1;
@@ -42,7 +42,7 @@ contract WorkStationRouter {
         emit CreatedWorkStation(workStation);
     }
 
-    function updateWorkStation(address _address, uint _id, string memory _description, bool _active) public workStationExists(_address) onlyOwner {
+    function updateWorkStation(address _address, string memory _id, string memory _description, bool _active) public workStationExists(_address) onlyOwner {
         WorkStation workStation = workStations[_address];
         address workStationAddress = address(workStation);
         workStation.update(_id, _description, _active);
@@ -59,7 +59,7 @@ contract WorkStationRouter {
         return workStations[_address].getWorkStationData();
     }
 
-    function getWorkStationById(uint _id) public view returns (WorkStation.workStation memory) {
+    function getWorkStationById(string memory _id) public view returns (WorkStation.workStation memory) {
         return workStations[workStationIDs[_id]].getWorkStationData();
     }
 

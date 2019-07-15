@@ -12,9 +12,9 @@ contract Tag {
     }
 
     struct tag {
-        uint id;
-        string description;
+        string id;
         bool active;
+        string description;
     }
 
     event CreatedTag(
@@ -25,22 +25,22 @@ contract Tag {
         tag _value
     );
 
-    constructor(uint _id, string memory _description, bool _active) public {
+    constructor(string memory _id, bool _active, string memory _description) public {
         manager = msg.sender;
         tagData = tag({
             id : _id,
-            description : _description,
-            active : _active
+            active : _active,
+            description : _description
             });
 
         emit CreatedTag(tagData);
     }
 
-    function update(uint _id, string memory _description, bool _active) public onlyOwner {
+    function update(string memory _id, bool _active, string memory _description) public onlyOwner {
         tagData = tag({
             id : _id,
-            description : _description,
-            active : _active
+            active : _active,
+            description : _description
             });
 
         emit UpdatedTag(tagData);
