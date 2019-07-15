@@ -11,7 +11,11 @@
     "build-ts": "tsc",
     "debug": "npm run build && npm run watch-debug",
     "serve-debug": "nodemon --inspect dist/server.js",
-    "tslint": "tslint -c tslint.json -p tsconfig.json"
+    "tslint": "tslint -c tslint.json -p tsconfig.json",
+    "analyze": "snyk test",
+    "test": "snyk test",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "author": "Blockchain IT",
   "email": "info@blockchain-it.hr",
@@ -19,11 +23,12 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "dotenv": "^8.0.0",
+    "errorhandler": "^1.5.1",
     "ethers": "^4.0.32",
     "express": "^4.17.1",
     "path": "^0.12.7",
     "perf_hooks": "^0.0.1",
-    "errorhandler": "^1.5.1"
+    "snyk": "^1.193.2"
   },
   "peerDependencies": {
     "yo-yoify": "^4.3.0"
@@ -42,6 +47,8 @@
     "@types/express-validator": "^3.0.0",
     "@types/errorhandler": "^0.0.32",
     "@types/dotenv": "4.0.3",
+    "@types/uuid": "^3.4.5",
+    "uuid": "3.3.2",
     "mocha": "^6.1.4",
     "standard": "^12.0.1",
     "ts-node": "^8.3.0",
@@ -50,5 +57,6 @@
     "keythereum": "^1.0.4",
     "compression": "^1.7.4",
     "eslint": "^6.0.1"
-  }
+  },
+  "snyk": true
 }

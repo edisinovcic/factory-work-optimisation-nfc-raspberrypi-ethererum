@@ -2,6 +2,7 @@ import { BaseController } from "./baseController";
 import { WalletHandler } from "../services/walletHandler";
 import { Tag } from "../model/tag";
 import { ethers } from "ethers";
+import uuid = require("uuid");
 
 export class TagController implements BaseController {
     async getAll(): Promise<string[]> {
@@ -26,14 +27,12 @@ export class TagController implements BaseController {
         .then((result) => {
             const tagList: Tag[] = [];
             result.forEach((element) => {
-                const newTag: Tag = new Tag(element.id.toNumber(), element.active, element.description);
+                const newTag: Tag = new Tag(element.id, element.active, element.description);
                 tagList.push(
                     newTag
                 );
             });
             return tagList;
-        }).catch((error) => {
-            throw new Error(error.message);
         });
     }
 
@@ -41,14 +40,14 @@ export class TagController implements BaseController {
         const wallet = WalletHandler.getProviderForUser();
         const tagRouter = new ethers.Contract(global.tagData.contractAddress, global.tagData.abi, wallet);
         const result = await tagRouter.getTagById(id);
-        return new Tag(result.id.toNumber(), result.active, result.description);
+        return new Tag(result.id, result.active, result.description);
     }
 
     async getByAddress(address: string): Promise<Tag> {
         const wallet = WalletHandler.getProviderForUser();
         const tagRouter = new ethers.Contract(global.tagData.contractAddress, global.tagData.abi, wallet);
         const result = await tagRouter.getTagByAddress(address);
-        return new Tag(result.id.toNumber(), result.active, result.description);
+        return new Tag(result.id, result.active, result.description);
     }
 
     // TODO: Add timeout for request when request lasts too much
@@ -56,7 +55,7 @@ export class TagController implements BaseController {
     async create(tag: Tag): Promise<any> {
         const wallet = WalletHandler.getProviderForUser();
         const tagRouter = new ethers.Contract(global.tagData.contractAddress, global.tagData.abi, wallet);
-        const tx = await tagRouter.addNewTag(tag.id, tag.description, tag.active);
+        const tx = await tagRouter.addNewTag(uuid().toString(), tag.active, tag.description);
         const txPromise = tx.wait();
         const tagCreationPromise = new Promise((resolve) => {
             tagRouter
@@ -69,19 +68,17 @@ export class TagController implements BaseController {
         return Promise.all([tagCreationPromise, txPromise])
         .then((result) => {
             return result[0];
-        }).catch((error) => {
-            throw new Error(error.message);
         });
     }
 
-    async update(id: number, tag: Tag): Promise<any> {
+    async update(id: string, tag: Tag): Promise<any> {
         const wallet = WalletHandler.getProviderForUser();
         const tagRouter = new ethers.Contract(global.tagData.contractAddress, global.tagData.abi, wallet);
         const tx = await tagRouter.addNewTag(tag.id, tag.active, tag.description);
         const txPromise = tx.wait();
         const tagCreationPromise = new Promise((resolve) => {
             tagRouter
-            .on(("CreatedTag"), (receipt: any) => {
+            .on(("UpdatedTag"), (receipt: any) => {
                 console.log(receipt);
                 resolve(receipt);
             });
@@ -90,8 +87,6 @@ export class TagController implements BaseController {
         return Promise.all([tagCreationPromise, txPromise])
         .then((result) => {
             return result[0];
-        }).catch((error) => {
-            throw new Error(error.message);
         });
     }
 

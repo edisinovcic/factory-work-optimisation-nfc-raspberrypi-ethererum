@@ -26,7 +26,7 @@ export class WorkStationEmployeeController implements BaseController {
         return workStationEmployee;
     }
 
-    update(id: number, workStationEmployee: WorkStationEmployee): WorkStationEmployee {
+    update(id: string, workStationEmployee: WorkStationEmployee): WorkStationEmployee {
 
 
         return workStationEmployee;

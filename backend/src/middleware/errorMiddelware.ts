@@ -6,10 +6,10 @@ import BadRequest from "../exceptions/BadRequest";
 export function errorMiddleware(error: Error, request: Request, response: Response, next: NextFunction) {
   if (error.message.includes("call exception")) {
     castError(new NotFound(error.message), request, response, next);
-  } else if (error.message.includes("network does support")) {
+  } else if (error.message.includes("network does support") || error.message.includes("invalid input argument")) {
     castError(new BadRequest(error.message), request, response, next);
   } else {
-    castError(new HttpException(), request, response, next);
+    castError(new HttpException(500, error.message), request, response, next);
   }
 }
 

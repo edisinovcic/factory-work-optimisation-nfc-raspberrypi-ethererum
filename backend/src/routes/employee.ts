@@ -11,89 +11,106 @@ const employeeControler = new EmployeeController();
 router.get("/", async (req: Request, res: Response, next: NextFunction) => {
     const start = performance.now();
     const result = await employeeControler.getAll()
+    .then((result) => {
+        const time = performance.now() - start;
+        res.status(200).json(
+            {
+                result: result,
+                time: time
+            }
+        );
+    })
     .catch((error) => {
         next(error);
     });
-    const time = performance.now() - start;
-    res.status(200).json(
-        {
-            result: result,
-            time: time
-        }
-    );
 });
 
 router.get("/content", async (req: Request, res: Response, next: NextFunction) => {
     const start = performance.now();
     const result = await employeeControler.getAllContents()
+    .then((result) => {
+        const time = performance.now() - start;
+        res.status(200).json(
+            {
+                result: result,
+                time: time
+            }
+        );
+    })
     .catch((error) => {
         next(error);
     });
-    const time = performance.now() - start;
-    res.status(200).json(
-        {
-            result: result,
-            time: time
-        }
-    );
 });
 
 
 router.get("/params", async (req: Request, res: Response, next: NextFunction) => {
-    try {
     const start = performance.now();
     let result;
     if (req.query.id !== undefined) {
         result = await employeeControler.getByID(req.query.id)
+        .then((result) => {
+            const time = performance.now() - start;
+            res.status(200).json(
+                {
+                    result: result,
+                    time: time
+                }
+            );
+        })
         .catch((error) => {
             next(error);
         });
     } else if (req.query.address !== undefined) {
         result = await employeeControler.getByAddress(req.query.address)
+        .then((result) => {
+            const time = performance.now() - start;
+            res.status(200).json(
+                {
+                    result: result,
+                    time: time
+                }
+            );
+        })
         .catch((error) => {
             next(error);
         });
     }
-    const time = performance.now() - start;
-    res.status(200).json(
-        {
-            result: result,
-            time: time
-        }
-    );
-    } catch (next) {}
 });
 
 
 router.post("/", async (req: Request, res: Response, next: NextFunction) => {
     const start = performance.now();
     const address = await employeeControler.create(req.body)
+    .then((address) => {
+        const time = performance.now() - start;
+        res.status(200).json(
+            {
+                address: address,
+                time: time
+            }
+        );
+    })
     .catch((error) => {
         next(error);
     });
-    const time = performance.now() - start;
-    res.status(200).json(
-        {
-            address: address,
-            time: time
-        }
-    );
 });
 
 
-router.put("/:id", async (req: Request, res: Response, next: NextFunction) => {
+router.put("/:address", async (req: Request, res: Response, next: NextFunction) => {
     const start = performance.now();
-    const address = await employeeControler.update(req.params.id, req.body)
-    .catch((error) => {
-        next(error);
-    });
-    const time = performance.now() - start;
-    res.status(200).json(
+    const address = await employeeControler.update(req.params.address, req.body)
+    .then((result) => {
+        const time = performance.now() - start;
+        res.status(200).json(
         {
             address: address,
             time: time
         }
-    );
+        );
+    })
+    .catch((error) => {
+        next(error);
+    });
 });
 
 

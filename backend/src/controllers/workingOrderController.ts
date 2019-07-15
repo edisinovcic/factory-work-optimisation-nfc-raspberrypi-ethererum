@@ -26,7 +26,7 @@ export class WorkingOrderController implements BaseController {
         return workingOrder;
     }
 
-    update(id: number, workingOrder: WorkingOrder): WorkingOrder {
+    update(id: string, workingOrder: WorkingOrder): WorkingOrder {
 
 
         return workingOrder;

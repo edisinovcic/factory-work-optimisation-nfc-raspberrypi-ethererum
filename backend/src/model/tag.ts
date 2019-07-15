@@ -1,9 +1,9 @@
 export class Tag {
-    id: number;
+    id: string;
     description: string;
     active: boolean;
 
-    constructor( _id: number, _description: string, _active: boolean ) {
+    constructor( _id: string, _description: string, _active: boolean ) {
         this.id = _id;
         this.description = _description;
         this.active = _active;
@@ -13,7 +13,7 @@ export class Tag {
         return ( this.id, this.description, this.active);
     }
 
-    toObject(_id: number, _description: string, _active: boolean) {
+    toObject(_id: string, _description: string, _active: boolean) {
         this.id = _id;
         this.description = _description;
         this.active = _active;

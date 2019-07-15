@@ -1,3 +1,6 @@
 Backend:
+- Check responses when error happens
 
 Blockchain:
+- Add revert when ID exists
+- Fix update on Employee
