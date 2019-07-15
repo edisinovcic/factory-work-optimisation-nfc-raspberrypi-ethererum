@@ -77,7 +77,10 @@ app.use("/api/workingOrder", workingOrderRouter);
 app.use("/api/workStation", workStationRouter);
 app.use("/api/workStationEmployee", workStationEmployeeRouter);
 
-// app.use(errorHandler(customErrorHandler));
+// Error handling
+import errorMiddleware from "./middleware/errorMiddelware";
+app.use(errorMiddleware);
+
 app.listen(port, () => {
     console.log(
         "App is running at http://localhost:%d in %s mode",

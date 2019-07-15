@@ -71,7 +71,9 @@ app.use("/api/tag", tag_1.default);
 app.use("/api/workingOrder", workingOrder_1.default);
 app.use("/api/workStation", workStationRouter_1.default);
 app.use("/api/workStationEmployee", workStationEmployeeRouter_1.default);
-// app.use(errorHandler(customErrorHandler));
+// Error handling
+const errorMiddelware_1 = __importDefault(require("./middleware/errorMiddelware"));
+app.use(errorMiddelware_1.default);
 app.listen(port, () => {
     console.log("App is running at http://localhost:%d in %s mode", port, environment);
     console.log("Press CTRL-C to stop\n");

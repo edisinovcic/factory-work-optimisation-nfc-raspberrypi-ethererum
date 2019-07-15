@@ -41,14 +41,19 @@ export class EmployeeController implements BaseController {
     async getByID(id: number): Promise<Employee> {
         const wallet = WalletHandler.getProviderForUser();
         const employeeRouter = new ethers.Contract(global.employeeData.contractAddress, global.employeeData.abi, wallet);
-        const result = await employeeRouter.getEmployeeById(id);
+        const result = await employeeRouter.getEmployeeById(id)
+        .then((result: any) => {
+            return result;
+        }).catch((error: any) => {
+            throw new Error(error.message);
+        });
         return new Employee(result.id.toNumber(), result.active, result.skills);
     }
 
     async getByAddress(address: string): Promise<Employee> {
         const wallet = WalletHandler.getProviderForUser();
         const employeeRouter = new ethers.Contract(global.employeeData.contractAddress, global.employeeData.abi, wallet);
-        const result = await employeeRouter.getEmployeeByAddress(address);
+        const result = await employeeRouter.getEmployeeByAddress(address)
         return new Employee(result.id.toNumber(), result.active, result.skills);
     }
 
