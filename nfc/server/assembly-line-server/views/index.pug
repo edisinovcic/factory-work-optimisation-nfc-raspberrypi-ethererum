@@ -1,0 +1,66 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport', content='width=device-width, initial-scale=1.0')
+  meta(http-equiv='X-UA-Compatible', content='ie=edge')
+  link(rel='stylesheet', href='../public/css/style.css')
+  link(href='https://fonts.googleapis.com/css?family=Signika', rel='stylesheet')
+  title=title
+header.header
+  h1.title=title
+main.main
+  section.display-view
+    .interface-view
+      button#normal.btn-green(type='button') Normal
+      button#z.btn-yellow(type='button') Z
+      button#t.btn-yellow(type='button') T
+      button#m.btn-yellow(type='button') M
+      button#stop.btn-red(type='button') Stop
+      //button#finish.btn-green(type='button') Finish
+      //button#simulate.btn-yellow(type='button') Simulate
+    .image-view
+      img#image-view.image-instruction(src='../public/imgs/style/placeholder.jpg', alt='Product')
+  section.timer-view
+    .table-view
+      table.table
+        thead.table-header
+          tr.table-row
+            th  
+            th(scope='col') Product
+            th(scope='col') Average time
+            th(scope='col') Total time
+            th(scope='col') Work time
+            th(scope='col') Z
+            th(scope='col') T
+            th(scope='col') M
+        tbody
+          tr.table-row
+            th(scope='row') Current:
+            td#current-product
+            td#current-average-timer
+            td#current-total-timer
+            td#current-work-timer
+            td#current-z-timer
+            td#current-t-timer
+            td#current-m-timer
+          tr.table-row
+            th(scope='row') Next:
+            td#next-product
+            td#next-average-timer
+            td#next-total-timer
+            td#next-work-timer
+            td#next-z-timer
+            td#next-t-timer
+            td#next-m-timer
+    .wait-box
+      h3
+        | Product: 
+        span#wait-product
+      h3
+        | Wait time: 
+        span#wait-time 0:00:00
+script.
+  const stationID='#{stationID}'    
+script(src='https://code.jquery.com/jquery-3.3.1.js', integrity='sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=', crossorigin='anonymous')
+script(src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.dev.js')
+script(src='/dist/bundle.js')

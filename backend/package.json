@@ -1,0 +1,62 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Backend interface between blockchain geth nodes and nfc readers on raspberry pi",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run serve",
+    "build": "npm run build-ts",
+    "serve": "node dist/app.js",
+    "watch-node": "nodemon dist/server.js",
+    "build-ts": "tsc",
+    "debug": "npm run build && npm run watch-debug",
+    "serve-debug": "nodemon --inspect dist/server.js",
+    "tslint": "tslint -c tslint.json -p tsconfig.json",
+    "analyze": "snyk test",
+    "test": "snyk test",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
+  },
+  "author": "Blockchain IT",
+  "email": "info@blockchain-it.hr",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.0.0",
+    "errorhandler": "^1.5.1",
+    "ethers": "^4.0.32",
+    "express": "^4.17.1",
+    "path": "^0.12.7",
+    "perf_hooks": "^0.0.1",
+    "snyk": "^1.193.2"
+  },
+  "peerDependencies": {
+    "yo-yoify": "^4.3.0"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.5.2",
+    "@types/async": "^3.0.0",
+    "@types/color-support": "^1.1.0",
+    "@types/colors": "^1.2.1",
+    "@types/commander": "^2.12.2",
+    "@types/compression": "^0.0.36",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^12.6.1",
+    "@types/web3": "^1.0.19",
+    "@types/express": "^4.17.0",
+    "@types/express-validator": "^3.0.0",
+    "@types/errorhandler": "^0.0.32",
+    "@types/dotenv": "4.0.3",
+    "@types/uuid": "^3.4.5",
+    "uuid": "3.3.2",
+    "mocha": "^6.1.4",
+    "standard": "^12.0.1",
+    "ts-node": "^8.3.0",
+    "typescript": "^3.5.3",
+    "tslint": "5.18.0",
+    "keythereum": "^1.0.4",
+    "compression": "^1.7.4",
+    "eslint": "^6.0.1"
+  },
+  "snyk": true
+}
